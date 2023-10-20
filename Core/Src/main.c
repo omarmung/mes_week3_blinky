@@ -91,10 +91,20 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
+  int buttonState = 0;
+
   while (1)
   {
-	HAL_GPIO_TogglePin(LED_GREENY_GPIO_Port, LED_GREENY_Pin);
-	HAL_Delay(500);
+	buttonState = HAL_GPIO_ReadPin(BUTTON_USER_GPIO_Port, BUTTON_USER_Pin);
+
+	if (buttonState) {
+		HAL_GPIO_TogglePin(LED_GREENY_GPIO_Port, LED_GREENY_Pin);
+		HAL_Delay(500);
+	}
+
+
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -160,6 +170,12 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(LED_GREENY_GPIO_Port, LED_GREENY_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin : BUTTON_USER_Pin */
+  GPIO_InitStruct.Pin = BUTTON_USER_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(BUTTON_USER_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : LED_GREENY_Pin */
   GPIO_InitStruct.Pin = LED_GREENY_Pin;
